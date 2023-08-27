@@ -108,6 +108,7 @@
   }
 
   .tab {
+    cursor: default;
     position: relative;
     padding-top: 6px;
     padding-bottom: 6px;
