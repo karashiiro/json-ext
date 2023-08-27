@@ -46,7 +46,7 @@ const jsonResult = extractJSONPageContext();
 if (jsonResult.success) {
   jsonResult.value.element.hidden = true;
 
-  document.body.setAttribute("style", "margin: 0;");
+  document.body.setAttribute("style", "margin: 0; background-color: #18181a;");
 
   new JSONViewer({
     target: document.body,
