@@ -34,9 +34,27 @@
   };
 </script>
 
-<div class="controls">
-  <button on:click={() => (mode = "json")}>JSON</button>
-  <button on:click={() => (mode = "raw")}>Raw Data</button>
+<div class="tabs">
+  <div class="tab">
+    <span class="tab-line" hidden={mode !== "json"} />
+    <a
+      title="JSON"
+      class="tab-label"
+      on:click={() => (mode = "json")}
+      tabindex={0}
+      role="tab">JSON</a
+    >
+  </div>
+  <div class="tab">
+    <span class="tab-line" hidden={mode !== "raw"} />
+    <a
+      title="Raw Data"
+      class="tab-label"
+      on:click={() => (mode = "raw")}
+      tabindex={1}
+      role="tab">Raw Data</a
+    >
+  </div>
 </div>
 
 <div class="controls">
@@ -67,9 +85,33 @@
 
 <style>
   .controls {
-    width: 100%;
     padding-top: 8px;
     padding-bottom: 8px;
+  }
+
+  .tabs {
+    display: flex;
+    background-color: #0e0e0e;
+  }
+
+  .tab {
+    position: relative;
+    padding-top: 6px;
+  }
+
+  .tab-line {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #0a84ff;
+  }
+
+  .tab-label {
+    padding: 8px;
+    line-height: 16px;
+    font-size: 12px;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   }
 
   .json-raw {

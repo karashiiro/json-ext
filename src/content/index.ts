@@ -46,6 +46,8 @@ const jsonResult = extractJSONPageContext();
 if (jsonResult.success) {
   jsonResult.value.element.hidden = true;
 
+  document.body.setAttribute("style", "margin: 0;");
+
   new JSONViewer({
     target: document.body,
     props: { data: jsonResult.value.data, raw: jsonResult.value.raw },
