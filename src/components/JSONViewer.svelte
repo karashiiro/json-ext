@@ -36,7 +36,7 @@
 
 <div class="tabs">
   <div class="tab">
-    <span class="tab-line" hidden={mode !== "json"} />
+    <span class={`tab-line ${mode === "json" ? "active" : ""}`} />
     <a
       title="JSON"
       class="tab-label"
@@ -46,7 +46,7 @@
     >
   </div>
   <div class="tab">
-    <span class="tab-line" hidden={mode !== "raw"} />
+    <span class={`tab-line ${mode === "raw" ? "active" : ""}`} />
     <a
       title="Raw Data"
       class="tab-label"
@@ -117,11 +117,18 @@
     background-color: #232327;
   }
 
+  .tab:hover .tab-line:not(.active) {
+    background-color: #4f4f52;
+  }
+
   .tab-line {
     position: absolute;
     top: 0;
     width: 100%;
     height: 2px;
+  }
+
+  .tab-line.active {
     background-color: #0a84ff;
   }
 
