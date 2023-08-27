@@ -57,9 +57,11 @@
   </div>
 </div>
 
-<div class="controls">
-  <button on:click={() => download(saveContainer)}>Save</button>
-  <button on:click={() => copy()}>Copy</button>
+<div class="toolbar">
+  <button class="toolbar-btn" on:click={() => download(saveContainer)}
+    >Save</button
+  >
+  <button class="toolbar-btn" on:click={() => copy()}>Copy</button>
 </div>
 
 {#if mode === "json"}
@@ -84,14 +86,25 @@
 <div bind:this={saveContainer} />
 
 <style>
-  .controls {
-    padding-top: 8px;
-    padding-bottom: 8px;
+  .toolbar {
+    padding: 1px;
+    padding-inline-start: 2px;
+    background-color: #18181a;
+    height: 22px;
+    border-bottom: 1px solid #38383d;
+  }
+
+  .toolbar-btn {
+    /* For some reason, setting "color: #b1b1b3" and "background-color: #38383d" causes "appearance" to be set to "none"??? */
+    cursor: pointer;
+    font-size: 11px;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   }
 
   .tabs {
     display: flex;
     background-color: #0e0e0e;
+    border-bottom: 1px solid #38383d;
   }
 
   .tab {
