@@ -26,11 +26,16 @@
 
     node.removeChild(element);
   };
+
+  const copy = () => {
+    return navigator.clipboard.writeText(raw);
+  };
 </script>
 
 <div>
   <div class="controls">
     <button on:click={() => download(saveContainer)}>Save</button>
+    <button on:click={() => copy()}>Copy</button>
   </div>
 
   <JSONTree
