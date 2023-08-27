@@ -1,7 +1,7 @@
 <script lang="ts">
   import JSONTree from "svelte-json-tree";
 
-  export let data: any;
+  export let data: unknown;
 </script>
 
 <div>
