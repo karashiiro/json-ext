@@ -64,7 +64,7 @@
   <button class="toolbar-btn" on:click={() => copy()}>Copy</button>
 </div>
 
-{#if mode === "json"}
+<div class="json-structured" hidden={mode !== "json"}>
   <JSONTree
     value={data}
     --json-tree-label-color="rgb(117, 191, 255)"
@@ -79,18 +79,23 @@
     --json-tree-font-family="Consolas, monospace"
     defaultExpandedLevel={maxExpandedLevel}
   />
-{:else}
-  <pre class="json-raw">{raw}</pre>
-{/if}
+</div>
+
+<div hidden={mode !== "raw"}><pre class="json-raw">{raw}</pre></div>
 
 <div bind:this={saveContainer} />
 
 <style>
+  :root {
+    --tabs-height: 28px;
+    --toolbar-height: 25px;
+  }
+
   .toolbar {
     padding: 1px;
     padding-inline-start: 2px;
     background-color: #18181a;
-    height: 22px;
+    height: calc(var(--toolbar-height) - 2px /* padding */ - 1px /* border */);
     border-bottom: 1px solid #38383d;
   }
 
@@ -105,6 +110,7 @@
     display: flex;
     background-color: #0e0e0e;
     border-bottom: 1px solid #38383d;
+    height: calc(var(--tabs-height) - 1px /* border */);
   }
 
   .tab {
@@ -156,6 +162,12 @@
 
   .tab.active .tab-label {
     color: #ffffff;
+  }
+
+  .json-structured {
+    direction: ltr;
+    overflow-y: auto;
+    height: calc(100vh - var(--tabs-height) - var(--toolbar-height));
   }
 
   .json-raw {
