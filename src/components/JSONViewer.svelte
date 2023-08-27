@@ -35,8 +35,8 @@
 </script>
 
 <div class="tabs">
-  <div class="tab">
-    <span class={`tab-line ${mode === "json" ? "active" : ""}`} />
+  <div class={`tab ${mode === "json" ? "active" : ""}`}>
+    <span class="tab-line" />
     <a
       title="JSON"
       class="tab-label"
@@ -45,8 +45,8 @@
       role="tab">JSON</a
     >
   </div>
-  <div class="tab">
-    <span class={`tab-line ${mode === "raw" ? "active" : ""}`} />
+  <div class={`tab ${mode === "raw" ? "active" : ""}`}>
+    <span class="tab-line" />
     <a
       title="Raw Data"
       class="tab-label"
@@ -118,8 +118,12 @@
     background-color: #232327;
   }
 
-  .tab:hover .tab-line:not(.active) {
+  .tab:not(.active):hover .tab-line {
     background-color: #4f4f52;
+  }
+
+  .tab.active .tab-line {
+    background-color: #0a84ff;
   }
 
   .tab-line {
@@ -129,11 +133,8 @@
     height: 2px;
   }
 
-  .tab-line.active {
-    background-color: #0a84ff;
-  }
-
   .tab-label {
+    color: #b1b1b3;
     padding-top: 5px;
     padding-bottom: 5px;
     padding-right: 10px;
@@ -141,6 +142,10 @@
     line-height: 16px;
     font-size: 12px;
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  .tab.active .tab-label {
+    color: #ffffff;
   }
 
   .json-raw {
