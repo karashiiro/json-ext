@@ -110,8 +110,8 @@
   .tab {
     cursor: default;
     position: relative;
-    padding-top: 6px;
-    padding-bottom: 6px;
+    padding-top: 5px;
+    padding-bottom: 5px;
   }
 
   .tab:hover {
