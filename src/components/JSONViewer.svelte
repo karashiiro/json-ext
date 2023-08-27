@@ -10,6 +10,8 @@
   const maxExpandedLevel = getObjectMaxDepth(data);
   const fileName = getJSONFileNameFromPath(document.location.pathname);
 
+  let mode: "json" | "raw" = "json";
+
   // https://stackoverflow.com/a/18197341
   const download = (node: HTMLElement) => {
     var element = document.createElement("a");
@@ -32,12 +34,17 @@
   };
 </script>
 
-<div>
-  <div class="controls">
-    <button on:click={() => download(saveContainer)}>Save</button>
-    <button on:click={() => copy()}>Copy</button>
-  </div>
+<div class="controls">
+  <button on:click={() => (mode = "json")}>JSON</button>
+  <button on:click={() => (mode = "raw")}>Raw Data</button>
+</div>
 
+<div class="controls">
+  <button on:click={() => download(saveContainer)}>Save</button>
+  <button on:click={() => copy()}>Copy</button>
+</div>
+
+{#if mode === "json"}
   <JSONTree
     value={data}
     --json-tree-label-color="rgb(117, 191, 255)"
@@ -52,7 +59,9 @@
     --json-tree-font-family="Consolas, monospace"
     defaultExpandedLevel={maxExpandedLevel}
   />
-</div>
+{:else}
+  <pre class="json-raw">{raw}</pre>
+{/if}
 
 <div bind:this={saveContainer} />
 
@@ -61,5 +70,12 @@
     width: 100%;
     padding-top: 8px;
     padding-bottom: 8px;
+  }
+
+  .json-raw {
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    font-size: 11px;
+    font-family: Consolas, monospace;
   }
 </style>
