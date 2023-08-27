@@ -33,3 +33,13 @@ export const getObjectMaxDepth = (o: unknown, depth = 0) => {
 
   return depth;
 };
+
+export const getJSONFileNameFromPath = (path: string) => {
+  const lastPathSegment = path.substring(path.lastIndexOf("/") + 1);
+
+  if (lastPathSegment.endsWith(".json")) {
+    return lastPathSegment;
+  }
+
+  return `${lastPathSegment}.json`;
+};

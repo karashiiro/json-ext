@@ -5,6 +5,7 @@ import JSONViewer from "../components/JSONViewer.svelte";
 
 interface JSONPageContext {
   data: any;
+  raw: string;
   element: HTMLElement;
 }
 
@@ -35,6 +36,7 @@ function extractJSONPageContext(): JSONPageContextResult {
     success: true,
     value: {
       data: JSON.parse(json),
+      raw: json,
       element: preElements[0],
     },
   };
@@ -46,6 +48,6 @@ if (jsonResult.success) {
 
   new JSONViewer({
     target: document.body,
-    props: { data: jsonResult.value.data },
+    props: { data: jsonResult.value.data, raw: jsonResult.value.raw },
   });
 }

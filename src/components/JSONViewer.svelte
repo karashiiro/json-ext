@@ -1,13 +1,38 @@
 <script lang="ts">
   import JSONTree from "svelte-json-tree";
-  import { getObjectMaxDepth } from "../json";
+  import { getJSONFileNameFromPath, getObjectMaxDepth } from "../json";
 
   export let data: unknown;
+  export let raw: string;
+
+  let saveContainer: HTMLElement;
 
   const maxExpandedLevel = getObjectMaxDepth(data);
+  const fileName = getJSONFileNameFromPath(document.location.pathname);
+
+  // https://stackoverflow.com/a/18197341
+  const download = (node: HTMLElement) => {
+    var element = document.createElement("a");
+    element.setAttribute(
+      "href",
+      "data:text/plain;charset=utf-8," + encodeURIComponent(raw),
+    );
+    element.setAttribute("download", fileName);
+
+    element.style.display = "none";
+    node.appendChild(element);
+
+    element.click();
+
+    node.removeChild(element);
+  };
 </script>
 
 <div>
+  <div class="controls">
+    <button on:click={() => download(saveContainer)}>Save</button>
+  </div>
+
   <JSONTree
     value={data}
     --json-tree-label-color="rgb(117, 191, 255)"
@@ -23,3 +48,13 @@
     defaultExpandedLevel={maxExpandedLevel}
   />
 </div>
+
+<div bind:this={saveContainer} />
+
+<style>
+  .controls {
+    width: 100%;
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+</style>
