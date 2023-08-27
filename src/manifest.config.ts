@@ -28,9 +28,6 @@ export default defineManifest(async (env) => ({
       js: ["src/content/index.ts"],
     },
   ],
-  background: {
-    service_worker: "src/background/index.ts",
-  },
   action: {
     default_popup: "src/popup/popup.html",
     default_icon: {
