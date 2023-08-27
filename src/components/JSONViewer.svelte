@@ -97,6 +97,11 @@
   .tab {
     position: relative;
     padding-top: 6px;
+    padding-bottom: 6px;
+  }
+
+  .tab:hover {
+    background-color: #232327;
   }
 
   .tab-line {
@@ -108,7 +113,10 @@
   }
 
   .tab-label {
-    padding: 8px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-right: 10px;
+    padding-left: 10px;
     line-height: 16px;
     font-size: 12px;
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
