@@ -1,10 +1,11 @@
 <script lang="ts">
-  import JSONTree from "svelte-json-tree";
   import { getJSONFileNameFromPath, getObjectMaxDepth } from "../json";
   import Tabs from "./Tabs.svelte";
   import Tab from "./Tab.svelte";
   import Toolbar from "./Toolbar.svelte";
   import ToolbarButton from "./ToolbarButton.svelte";
+  import StructuredJSONViewer from "./StructuredJSONViewer.svelte";
+  import RawJSONViewer from "./RawJSONViewer.svelte";
 
   export let data: unknown;
   export let raw: string;
@@ -58,24 +59,11 @@
   <ToolbarButton onClick={copy}>Copy</ToolbarButton>
 </Toolbar>
 
-<div class="json-structured" hidden={mode !== "json"}>
-  <JSONTree
-    value={data}
-    --json-tree-label-color="rgb(117, 191, 255)"
-    --json-tree-property-color="rgb(117, 191, 255)"
-    --json-tree-string-color="rgb(255, 125, 233)"
-    --json-tree-number-color="rgb(134, 222, 116)"
-    --json-tree-boolean-color="rgb(134, 222, 116)"
-    --json-tree-null-color="rgb(147, 147, 149)"
-    --json-tree-li-identation="16px"
-    --json-tree-li-line-height="20px"
-    --json-tree-font-size="11px"
-    --json-tree-font-family="Consolas, monospace"
-    defaultExpandedLevel={maxExpandedLevel}
-  />
+<div hidden={mode !== "json"}>
+  <StructuredJSONViewer value={data} defaultExpandedLevel={maxExpandedLevel} />
 </div>
 
-<div hidden={mode !== "raw"}><pre class="json-raw">{raw}</pre></div>
+<div hidden={mode !== "raw"}><RawJSONViewer data={raw} /></div>
 
 <div bind:this={saveContainer} />
 
@@ -83,18 +71,5 @@
   :root {
     --tabs-height: 28px;
     --toolbar-height: 25px;
-  }
-
-  .json-structured {
-    direction: ltr;
-    overflow-y: auto;
-    height: calc(100vh - var(--tabs-height) - var(--toolbar-height));
-  }
-
-  .json-raw {
-    word-wrap: break-word;
-    white-space: pre-wrap;
-    font-size: 11px;
-    font-family: Consolas, monospace;
   }
 </style>
