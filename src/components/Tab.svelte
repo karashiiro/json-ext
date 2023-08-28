@@ -19,6 +19,7 @@
 <style>
   .tab {
     cursor: default;
+    user-select: none;
     position: relative;
     padding-top: 5px;
     padding-bottom: 5px;

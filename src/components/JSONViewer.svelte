@@ -3,6 +3,8 @@
   import { getJSONFileNameFromPath, getObjectMaxDepth } from "../json";
   import Tabs from "./Tabs.svelte";
   import Tab from "./Tab.svelte";
+  import Toolbar from "./Toolbar.svelte";
+  import ToolbarButton from "./ToolbarButton.svelte";
 
   export let data: unknown;
   export let raw: string;
@@ -51,12 +53,10 @@
   />
 </Tabs>
 
-<div class="toolbar">
-  <button class="toolbar-btn" on:click={() => download(saveContainer)}
-    >Save</button
-  >
-  <button class="toolbar-btn" on:click={() => copy()}>Copy</button>
-</div>
+<Toolbar>
+  <ToolbarButton onClick={() => download(saveContainer)}>Save</ToolbarButton>
+  <ToolbarButton onClick={copy}>Copy</ToolbarButton>
+</Toolbar>
 
 <div class="json-structured" hidden={mode !== "json"}>
   <JSONTree
@@ -83,29 +83,6 @@
   :root {
     --tabs-height: 28px;
     --toolbar-height: 25px;
-  }
-
-  .toolbar {
-    display: flex;
-    padding: 1px;
-    padding-inline-start: 2px;
-    background-color: #18181a;
-    height: calc(var(--toolbar-height) - 2px /* padding */ - 1px /* border */);
-    border-bottom: 1px solid #38383d;
-  }
-
-  .toolbar-btn {
-    height: 22px;
-    margin-inline-start: 5px;
-    padding: 0 3px;
-    cursor: pointer;
-    user-select: none;
-    color: #b1b1b3;
-    background-color: #38383d;
-    border: none;
-    border-radius: 2px;
-    font-size: 11px;
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   }
 
   .json-structured {
