@@ -1,6 +1,8 @@
 <script lang="ts">
   import JSONTree from "svelte-json-tree";
   import { getJSONFileNameFromPath, getObjectMaxDepth } from "../json";
+  import Tabs from "./Tabs.svelte";
+  import Tab from "./Tab.svelte";
 
   export let data: unknown;
   export let raw: string;
@@ -34,28 +36,20 @@
   };
 </script>
 
-<div class="tabs">
-  <div class={`tab ${mode === "json" ? "active" : ""}`}>
-    <span class="tab-line" />
-    <a
-      title="JSON"
-      class="tab-label"
-      on:click={() => (mode = "json")}
-      tabindex={0}
-      role="tab">JSON</a
-    >
-  </div>
-  <div class={`tab ${mode === "raw" ? "active" : ""}`}>
-    <span class="tab-line" />
-    <a
-      title="Raw Data"
-      class="tab-label"
-      on:click={() => (mode = "raw")}
-      tabindex={1}
-      role="tab">Raw Data</a
-    >
-  </div>
-</div>
+<Tabs>
+  <Tab
+    label="JSON"
+    active={mode === "json"}
+    tabIndex={0}
+    onClick={() => (mode = "json")}
+  />
+  <Tab
+    label="Raw Data"
+    active={mode === "raw"}
+    tabIndex={1}
+    onClick={() => (mode = "raw")}
+  />
+</Tabs>
 
 <div class="toolbar">
   <button class="toolbar-btn" on:click={() => download(saveContainer)}
@@ -112,64 +106,6 @@
     border-radius: 2px;
     font-size: 11px;
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  }
-
-  .tabs {
-    display: flex;
-    background-color: #0e0e0e;
-    border-bottom: 1px solid #38383d;
-    height: calc(var(--tabs-height) - 1px /* border */);
-  }
-
-  .tab {
-    cursor: default;
-    position: relative;
-    padding-top: 5px;
-    padding-bottom: 5px;
-  }
-
-  .tab:hover {
-    background-color: #232327;
-  }
-
-  .tab:not(.active):hover .tab-line {
-    background-color: #4f4f52;
-    opacity: 1;
-    transform: scaleX(1);
-  }
-
-  .tab.active .tab-line {
-    background-color: #0a84ff;
-    opacity: 1;
-    transform: scaleX(1);
-  }
-
-  .tab-line {
-    background-color: transparent;
-    position: absolute;
-    top: 0;
-    width: 100%;
-    height: 2px;
-    transition:
-      transform 250ms cubic-bezier(0.07, 0.95, 0, 1),
-      opacity 250ms cubic-bezier(0.07, 0.95, 0, 1);
-    opacity: 0;
-    transform: scaleX(0);
-  }
-
-  .tab-label {
-    color: #b1b1b3;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    padding-right: 10px;
-    padding-left: 10px;
-    line-height: 16px;
-    font-size: 12px;
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  }
-
-  .tab.active .tab-label {
-    color: #ffffff;
   }
 
   .json-structured {
