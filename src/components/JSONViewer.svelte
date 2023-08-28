@@ -92,6 +92,7 @@
   }
 
   .toolbar {
+    display: flex;
     padding: 1px;
     padding-inline-start: 2px;
     background-color: #18181a;
@@ -100,8 +101,15 @@
   }
 
   .toolbar-btn {
-    /* For some reason, setting "color: #b1b1b3" and "background-color: #38383d" causes "appearance" to be set to "none"??? */
+    height: 22px;
+    margin-inline-start: 5px;
+    padding: 0 3px;
     cursor: pointer;
+    user-select: none;
+    color: #b1b1b3;
+    background-color: #38383d;
+    border: none;
+    border-radius: 2px;
     font-size: 11px;
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   }
