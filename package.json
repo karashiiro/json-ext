@@ -18,6 +18,7 @@
     "@sveltejs/vite-plugin-svelte": "2.4.5",
     "@tsconfig/svelte": "5.0.2",
     "@types/chrome": "0.0.243",
+    "@types/jsonpath": "^0.2.0",
     "prettier": "^3.0.2",
     "prettier-plugin-svelte": "^3.0.3",
     "svelte": "4.2.0",
@@ -28,6 +29,8 @@
     "vite": "4.2.3"
   },
   "dependencies": {
-    "svelte-json-tree": "^2.1.0"
+    "@fortawesome/free-solid-svg-icons": "^6.4.2",
+    "jsonpath": "^1.1.1",
+    "svelte-fa": "^3.0.4"
   }
 }

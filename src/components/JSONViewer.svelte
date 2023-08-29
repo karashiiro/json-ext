@@ -60,7 +60,7 @@
 </Toolbar>
 
 <div hidden={mode !== "json"}>
-  <StructuredJSONViewer value={data} defaultExpandedLevel={maxExpandedLevel} />
+  <StructuredJSONViewer value={data} />
 </div>
 
 <div hidden={mode !== "raw"}><RawJSONViewer data={raw} /></div>
