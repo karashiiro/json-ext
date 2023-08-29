@@ -51,7 +51,7 @@
         id={rowId}
         on:click={(ev) => (selectedRowId = ev.currentTarget.id)}
         class:selected={rowSelected}
-        class:gone={!hasChildren && rowHidden}
+        class:gone={rowHidden}
       >
         <td
           class="json-content-cell json-content-label-cell"
