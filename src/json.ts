@@ -15,18 +15,16 @@ export const getObjectMaxDepth = (o: unknown, depth = 0) => {
         depth = kDepth;
       }
     });
-  } else {
-    if (typeof o === "object") {
-      assertType<Record<string, unknown>>(o);
+  } else if (typeof o === "object") {
+    assertType<Record<string, unknown>>(o);
 
-      depth++;
+    depth++;
 
-      const thisDepth = depth;
-      for (const k of Object.getOwnPropertyNames(o)) {
-        const kDepth = getObjectMaxDepth(o[k], thisDepth);
-        if (kDepth > depth) {
-          depth = kDepth;
-        }
+    const thisDepth = depth;
+    for (const k of Object.getOwnPropertyNames(o)) {
+      const kDepth = getObjectMaxDepth(o[k], thisDepth);
+      if (kDepth > depth) {
+        depth = kDepth;
       }
     }
   }
