@@ -12,7 +12,7 @@
 
   const paths = jp
     .paths(value, "$..*")
-    .sort(compareJSONPaths(new Intl.Collator("en")));
+    .sort(compareJSONPaths(new Intl.Collator("en", { numeric: true })));
 
   let collapsedProperties = new Set<string>();
 
