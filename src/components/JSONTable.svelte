@@ -51,14 +51,14 @@
         id={rowId}
         on:click={(ev) => (selectedRowId = ev.currentTarget.id)}
         class:selected={rowSelected}
-        class:gone={rowHidden}
+        class:gone={!hasChildren && rowHidden}
       >
         <td
           class="json-content-cell json-content-label-cell"
           style:--tree-label-cell-indent={`${16 * (path.length - 2)}px`}
           on:click={() => toggleProperty(rowId)}
         >
-          <div class="inner">
+          <span class="inner">
             <span
               class="json-content-arrow"
               class:hidden={!hasChildren}
@@ -74,24 +74,13 @@
               />
             </span>
             <span class="json-content-label" class:linky={hasChildren}
-              >{path[path.length - 1]}:</span
+              >{path[path.length - 1]}</span
             >
-          </div>
+            <span class="json-content-label">:</span>
+          </span>
         </td>
         <td class="json-content-cell">
-          {#if collapsedProperties.has(rowId)}
-            <span style:display="flex">
-              {#if Array.isArray(elementValue)}
-                <span style:color="rgb(117, 191, 255)">[</span>
-                <span style:color="rgb(147, 147, 149)">…</span>
-                <span style:color="rgb(117, 191, 255)">]</span>
-              {:else if elementValue != null && elementType === "object"}
-                <span style:color="rgb(117, 191, 255)">{"{"}</span>
-                <span style:color="rgb(147, 147, 149)">…</span>
-                <span style:color="rgb(117, 191, 255)">{"}"}</span>
-              {/if}
-            </span>
-          {:else if !hasChildren}
+          {#if !hasChildren}
             <span
               class:json-value-string={elementType === "string"}
               class:json-value-number={elementType === "number"}
@@ -102,6 +91,18 @@
                 "{elementValue}"
               {:else}
                 {elementValue}
+              {/if}
+            </span>
+          {:else if collapsedProperties.has(rowId)}
+            <span style:display="flex">
+              {#if Array.isArray(elementValue)}
+                <span style:color="rgb(117, 191, 255)">[</span>
+                <span style:color="rgb(147, 147, 149)">…</span>
+                <span style:color="rgb(117, 191, 255)">]</span>
+              {:else if elementValue != null && elementType === "object"}
+                <span style:color="rgb(117, 191, 255)">{"{"}</span>
+                <span style:color="rgb(147, 147, 149)">…</span>
+                <span style:color="rgb(117, 191, 255)">{"}"}</span>
               {/if}
             </span>
           {/if}
@@ -148,7 +149,6 @@
 
   .json-content-label {
     color: rgb(117, 191, 255);
-    padding-right: 17px;
   }
 
   .json-content-label-cell {
@@ -158,6 +158,7 @@
 
   .json-content-label-cell .inner {
     display: flex;
+    padding-right: 17px;
     padding-inline-start: var(--tree-label-cell-indent);
   }
 
