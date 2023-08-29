@@ -27,6 +27,15 @@
     collapsedProperties = new Set(collapsedProperties);
   };
 
+  const isURL = (value: string) => {
+    try {
+      new URL(value);
+      return true;
+    } catch {
+      return false;
+    }
+  };
+
   let selectedRowId: string | null = null;
 </script>
 
@@ -81,18 +90,25 @@
         </td>
         <td class="json-content-cell">
           {#if !hasChildren}
-            <span
-              class:json-value-string={elementType === "string"}
-              class:json-value-number={elementType === "number"}
-              class:json-value-boolean={elementType === "boolean"}
-              class:json-value-nullish={elementValue == null}
-            >
-              {#if elementType === "string"}
-                "{elementValue}"
-              {:else}
-                {elementValue}
-              {/if}
-            </span>
+            {#if isURL(elementValue)}
+              <a
+                href={elementValue}
+                class="json-value-string url"
+                title={elementValue}
+                draggable="false"
+                target="_blank"
+                rel="noopener noreferrer">"{elementValue}"</a
+              >
+            {:else if elementType === "string"}
+              <span class="json-value-string">"{elementValue}"</span>
+            {:else}
+              <span
+                class:json-value-number={elementType === "number"}
+                class:json-value-boolean={elementType === "boolean"}
+                class:json-value-nullish={elementValue == null}
+                >{elementValue}
+              </span>
+            {/if}
           {:else if collapsedProperties.has(rowId)}
             <span style:display="flex">
               {#if Array.isArray(elementValue)}
@@ -136,6 +152,13 @@
 
   .linky:hover {
     text-decoration: underline;
+  }
+
+  .url {
+    cursor: pointer;
+    text-decoration: underline;
+    text-decoration-skip-ink: none;
+    font-style: italic;
   }
 
   .json-value-column {
