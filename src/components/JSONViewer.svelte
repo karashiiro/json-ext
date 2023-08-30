@@ -1,5 +1,10 @@
 <script lang="ts">
-  import { getJSONFileNameFromPath, getObjectMaxDepth } from "../json";
+  import * as jp from "jsonpath";
+  import {
+    compareJSONPaths,
+    getJSONFileNameFromPath,
+    jsonPathToRowId,
+  } from "../json";
   import Tabs from "./Tabs.svelte";
   import Tab from "./Tab.svelte";
   import Toolbar from "./Toolbar.svelte";
@@ -11,11 +16,14 @@
   export let raw: string;
 
   let saveContainer: HTMLElement;
+  let collapsedProperties = new Set<string>();
+  let mode: "json" | "raw" = "json";
 
-  const maxExpandedLevel = getObjectMaxDepth(data);
   const fileName = getJSONFileNameFromPath(document.location.pathname);
 
-  let mode: "json" | "raw" = "json";
+  const paths = jp
+    .paths(data, "$..*")
+    .sort(compareJSONPaths(new Intl.Collator("en", { numeric: true })));
 
   // https://stackoverflow.com/a/18197341
   const download = (node: HTMLElement) => {
@@ -37,6 +45,14 @@
   const copy = () => {
     return navigator.clipboard.writeText(raw);
   };
+
+  const expandAll = () => {
+    collapsedProperties = new Set();
+  };
+
+  const collapseAll = () => {
+    collapsedProperties = new Set(paths.map(jsonPathToRowId));
+  };
 </script>
 
 <Tabs>
@@ -54,16 +70,23 @@
   />
 </Tabs>
 
-<Toolbar>
-  <ToolbarButton onClick={() => download(saveContainer)}>Save</ToolbarButton>
-  <ToolbarButton onClick={copy}>Copy</ToolbarButton>
-</Toolbar>
-
 <div hidden={mode !== "json"}>
-  <StructuredJSONViewer value={data} />
+  <Toolbar>
+    <ToolbarButton onClick={() => download(saveContainer)}>Save</ToolbarButton>
+    <ToolbarButton onClick={copy}>Copy</ToolbarButton>
+    <ToolbarButton onClick={collapseAll}>Collapse All</ToolbarButton>
+    <ToolbarButton onClick={expandAll}>Expand All</ToolbarButton>
+  </Toolbar>
+  <StructuredJSONViewer value={data} {paths} bind:collapsedProperties />
 </div>
 
-<div hidden={mode !== "raw"}><RawJSONViewer data={raw} /></div>
+<div hidden={mode !== "raw"}>
+  <Toolbar>
+    <ToolbarButton onClick={() => download(saveContainer)}>Save</ToolbarButton>
+    <ToolbarButton onClick={copy}>Copy</ToolbarButton>
+  </Toolbar>
+  <RawJSONViewer data={raw} />
+</div>
 
 <div bind:this={saveContainer} />
 

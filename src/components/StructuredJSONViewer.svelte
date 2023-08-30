@@ -1,11 +1,14 @@
 <script lang="ts">
+  import * as jp from "jsonpath";
   import JSONTable from "./JSONTable.svelte";
 
   export let value: unknown;
+  export let paths: jp.PathComponent[][];
+  export let collapsedProperties: Set<string>;
 </script>
 
 <div class="json-structured">
-  <JSONTable {value} />
+  <JSONTable {value} {paths} bind:collapsedProperties />
 </div>
 
 <style>

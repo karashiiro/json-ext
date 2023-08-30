@@ -1,20 +1,12 @@
 <script lang="ts">
   import Fa from "svelte-fa";
-  import { faCaretDown, faCaretRight } from "@fortawesome/free-solid-svg-icons";
   import * as jp from "jsonpath";
-  import { compareJSONPaths, jsonPathToQuery } from "../json";
+  import { faCaretDown, faCaretRight } from "@fortawesome/free-solid-svg-icons";
+  import { jsonPathToQuery, jsonPathToRowId } from "../json";
 
   export let value: unknown;
-
-  const jsonPathToRowId = (path: jp.PathComponent[]): string => {
-    return ["", ...path.slice(1)].join("/");
-  };
-
-  const paths = jp
-    .paths(value, "$..*")
-    .sort(compareJSONPaths(new Intl.Collator("en", { numeric: true })));
-
-  let collapsedProperties = new Set<string>();
+  export let paths: jp.PathComponent[][];
+  export let collapsedProperties: Set<string>;
 
   const toggleProperty = (id: string) => {
     if (collapsedProperties.has(id)) {
