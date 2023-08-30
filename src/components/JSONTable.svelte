@@ -27,7 +27,15 @@
     collapsedProperties = new Set(collapsedProperties);
   };
 
-  const isURL = (value: string) => {
+  const isURL = (value: unknown) => {
+    if (typeof value !== "string") {
+      return false;
+    }
+
+    if (value.trim().includes(" ")) {
+      return false;
+    }
+
     try {
       new URL(value);
       return true;
