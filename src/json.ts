@@ -28,6 +28,31 @@ export const jsonPathToQuery = (path: jp.PathComponent[]): string => {
   return result.join("");
 };
 
+const ascendPath = (path: jp.PathComponent[]): jp.PathComponent[][] => {
+  if (path.length === 1) {
+    return [path];
+  }
+
+  return [path, ...ascendPath(path.slice(0, -1))];
+};
+
+export const searchJSONPaths = (
+  value: unknown,
+  search: string,
+): jp.PathComponent[][] => {
+  return jp
+    .paths(value, "$..*")
+    .filter((path) => {
+      const key = `${path[path.length - 1]}`.toLocaleLowerCase();
+      const val = jp.query(value, jsonPathToQuery(path))[0];
+      return (
+        key.includes(search) ||
+        (typeof val === "string" && val.includes(search))
+      );
+    })
+    .flatMap(ascendPath);
+};
+
 export const getSortedJSONPaths = (value: unknown): jp.PathComponent[][] => {
   if (value == null || typeof value !== "object") {
     return [];

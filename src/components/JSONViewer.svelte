@@ -2,7 +2,9 @@
   import {
     getJSONFileNameFromPath,
     getSortedJSONPaths,
+    jsonPathToQuery,
     jsonPathToRowId,
+    searchJSONPaths,
   } from "../json";
   import Tabs from "./Tabs.svelte";
   import Tab from "./Tab.svelte";
@@ -10,6 +12,8 @@
   import ToolbarButton from "./ToolbarButton.svelte";
   import StructuredJSONViewer from "./StructuredJSONViewer.svelte";
   import RawJSONViewer from "./RawJSONViewer.svelte";
+  import SearchBar from "./SearchBar.svelte";
+  import Slot from "./Slot.svelte";
 
   export let data: unknown;
   export let raw: string;
@@ -18,10 +22,11 @@
   let collapsedProperties = new Set<string>();
   let mode: "json" | "raw" = "json";
   let pretty = false;
+  let search = "";
 
   const fileName = getJSONFileNameFromPath(document.location.pathname);
 
-  const paths = getSortedJSONPaths(data);
+  const allPaths = getSortedJSONPaths(data);
 
   // https://stackoverflow.com/a/18197341
   const download = (node: HTMLElement) => {
@@ -49,7 +54,7 @@
   };
 
   const collapseAll = () => {
-    collapsedProperties = new Set(paths.map(jsonPathToRowId));
+    collapsedProperties = new Set(allPaths.map(jsonPathToRowId));
   };
 </script>
 
@@ -69,13 +74,24 @@
 </Tabs>
 
 <div hidden={mode !== "json"}>
-  <Toolbar>
-    <ToolbarButton onClick={() => download(saveContainer)}>Save</ToolbarButton>
-    <ToolbarButton onClick={copy}>Copy</ToolbarButton>
-    <ToolbarButton onClick={collapseAll}>Collapse All</ToolbarButton>
-    <ToolbarButton onClick={expandAll}>Expand All</ToolbarButton>
-  </Toolbar>
-  <StructuredJSONViewer value={data} {paths} bind:collapsedProperties />
+  <Slot>
+    {@const searchResults = new Set(
+      searchJSONPaths(data, search).map(jsonPathToQuery),
+    )}
+    {@const paths = allPaths.filter((path) =>
+      searchResults.has(jsonPathToQuery(path)),
+    )}
+    <Toolbar>
+      <ToolbarButton onClick={() => download(saveContainer)}>Save</ToolbarButton
+      >
+      <ToolbarButton onClick={copy}>Copy</ToolbarButton>
+      <ToolbarButton onClick={collapseAll}>Collapse All</ToolbarButton>
+      <ToolbarButton onClick={expandAll}>Expand All</ToolbarButton>
+      <div class="separator" />
+      <SearchBar bind:value={search} />
+    </Toolbar>
+    <StructuredJSONViewer value={data} {paths} bind:collapsedProperties /></Slot
+  >
 </div>
 
 <div hidden={mode !== "raw"}>
@@ -95,5 +111,11 @@
   :root {
     --tabs-height: 28px;
     --toolbar-height: 25px;
+  }
+
+  .separator {
+    border-inline-start: 1px solid #454547;
+    height: calc(100% - 8px);
+    margin: 4px 1px;
   }
 </style>

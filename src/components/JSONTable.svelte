@@ -48,6 +48,7 @@
   </thead>
   <tbody>
     {#each paths as path}
+      {@const elementKey = path[path.length - 1]}
       {@const elementValue = jp.query(value, jsonPathToQuery(path))[0]}
       {@const elementType = typeof elementValue}
       {@const hasChildren = elementValue != null && elementType === "object"}
@@ -85,7 +86,7 @@
             <span
               class="json-content-label"
               class:linky={hasChildren}
-              title={rowId}>{path[path.length - 1]}</span
+              title={rowId}>{elementKey}</span
             >
             <span class="json-content-label">:</span>
           </span>
