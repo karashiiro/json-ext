@@ -1,8 +1,7 @@
 <script lang="ts">
-  import * as jp from "jsonpath";
   import {
-    compareJSONPaths,
     getJSONFileNameFromPath,
+    getSortedJSONPaths,
     jsonPathToRowId,
   } from "../json";
   import Tabs from "./Tabs.svelte";
@@ -21,9 +20,9 @@
 
   const fileName = getJSONFileNameFromPath(document.location.pathname);
 
-  const paths = jp
-    .paths(data, "$..*")
-    .sort(compareJSONPaths(new Intl.Collator("en", { numeric: true })));
+  const paths = getSortedJSONPaths(data);
+
+  console.log(paths);
 
   // https://stackoverflow.com/a/18197341
   const download = (node: HTMLElement) => {

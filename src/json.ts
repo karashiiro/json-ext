@@ -28,8 +28,17 @@ export const jsonPathToQuery = (path: jp.PathComponent[]): string => {
   return result.join("");
 };
 
-export const compareJSONPaths = (collator: Intl.Collator) => {
-  return (a: jp.PathComponent[], b: jp.PathComponent[]) => {
-    return collator.compare(a.join("."), b.join("."));
-  };
+export const getSortedJSONPaths = (value: unknown): jp.PathComponent[][] => {
+  if (value == null || typeof value !== "object") {
+    return [];
+  }
+
+  return jp
+    .paths(value, "$.*") // Get the first level of paths
+    .flatMap((path) => [
+      path, // Map to an array of [path, ...child paths]
+      ...getSortedJSONPaths(jp.query(value, jsonPathToQuery(path))[0]).map(
+        (p) => [...path, ...p.slice(1)], // Combine paths with their parents
+      ),
+    ]);
 };

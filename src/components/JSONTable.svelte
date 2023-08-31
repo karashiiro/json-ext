@@ -82,8 +82,10 @@
                 translateX={0.4}
               />
             </span>
-            <span class="json-content-label" class:linky={hasChildren}
-              >{path[path.length - 1]}</span
+            <span
+              class="json-content-label"
+              class:linky={hasChildren}
+              title={rowId}>{path[path.length - 1]}</span
             >
             <span class="json-content-label">:</span>
           </span>
