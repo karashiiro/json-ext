@@ -17,6 +17,7 @@
   let saveContainer: HTMLElement;
   let collapsedProperties = new Set<string>();
   let mode: "json" | "raw" = "json";
+  let pretty = false;
 
   const fileName = getJSONFileNameFromPath(document.location.pathname);
 
@@ -81,8 +82,11 @@
   <Toolbar>
     <ToolbarButton onClick={() => download(saveContainer)}>Save</ToolbarButton>
     <ToolbarButton onClick={copy}>Copy</ToolbarButton>
+    <ToolbarButton onClick={() => (pretty = !pretty)}
+      >Pretty Print</ToolbarButton
+    >
   </Toolbar>
-  <RawJSONViewer data={raw} />
+  <RawJSONViewer data={raw} {pretty} />
 </div>
 
 <div bind:this={saveContainer} />
