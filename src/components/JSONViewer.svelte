@@ -22,8 +22,6 @@
 
   const paths = getSortedJSONPaths(data);
 
-  console.log(paths);
-
   // https://stackoverflow.com/a/18197341
   const download = (node: HTMLElement) => {
     var element = document.createElement("a");
