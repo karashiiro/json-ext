@@ -11,14 +11,11 @@
 
 <style>
   .json-raw {
+    margin: 8px;
     word-wrap: break-word;
     white-space: pre-wrap;
     font-size: 11px;
     font-family: Consolas, monospace;
-  }
-
-  .json-raw.pretty {
-    margin: 8px;
   }
 
   .json-view {
