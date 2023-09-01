@@ -59,16 +59,10 @@
 </script>
 
 <Tabs>
-  <Tab
-    label="JSON"
-    active={mode === "json"}
-    tabIndex={0}
-    onClick={() => (mode = "json")}
-  />
+  <Tab label="JSON" active={mode === "json"} onClick={() => (mode = "json")} />
   <Tab
     label="Raw Data"
     active={mode === "raw"}
-    tabIndex={1}
     onClick={() => (mode = "raw")}
   />
 </Tabs>

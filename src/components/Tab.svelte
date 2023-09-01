@@ -1,19 +1,14 @@
 <script lang="ts">
   export let active: boolean;
   export let label: string;
-  export let tabIndex: number;
   export let onClick: () => void;
 </script>
 
 <div class={`tab ${active ? "active" : ""}`}>
   <span class="tab-line" />
-  <a
-    on:click={onClick}
-    title={label}
-    class="tab-label"
-    tabindex={tabIndex}
-    role="tab">{label}</a
-  >
+  <button on:click={onClick} title={label} class="tab-button" role="tab"
+    >{label}
+  </button>
 </div>
 
 <style>
@@ -21,8 +16,6 @@
     cursor: default;
     user-select: none;
     position: relative;
-    padding-top: 5px;
-    padding-bottom: 5px;
   }
 
   .tab:hover {
@@ -54,7 +47,9 @@
     transform: scaleX(0);
   }
 
-  .tab-label {
+  .tab-button {
+    border: 1px solid transparent;
+    background-color: transparent;
     color: #b1b1b3;
     padding-top: 5px;
     padding-bottom: 5px;
@@ -65,7 +60,7 @@
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   }
 
-  .tab.active .tab-label {
+  .tab.active .tab-button {
     color: #ffffff;
   }
 </style>
