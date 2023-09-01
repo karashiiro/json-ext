@@ -15,7 +15,11 @@
     style="position: absolute; pointer-events: none;"
   />
   <input class="searchbar-field" placeholder="Filter JSON" bind:value />
-  <button class="searchbar-clear" on:click={() => (value = "")}>
+  <button
+    class="searchbar-clear"
+    on:click={() => (value = "")}
+    hidden={value === ""}
+  >
     <Fa icon={faCircleXmark} scale={1.2} />
   </button>
 </div>
