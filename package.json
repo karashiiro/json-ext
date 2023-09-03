@@ -1,6 +1,7 @@
 {
   "name": "json-ext",
-  "description": "JSON viewer extension for Chrome, inspired by Firefox.",
+  "description": "A clone of Firefox's JSON viewer for Chrome.",
+  "author": "karashiiro",
   "version": "0.1.0",
   "type": "module",
   "repository": {
